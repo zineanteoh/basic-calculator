@@ -89,7 +89,7 @@ function subtract(a, b) {
 }
 
 function multiply(a, b) {
-  // add the decimal places together
+  // decimalToRound = add the decimal places together
   let decimalToRound = getSumDP(a, b);
   return (
     Math.round(Number(a) * Number(b) * 10 ** decimalToRound) / 10 ** decimalToRound
@@ -97,7 +97,7 @@ function multiply(a, b) {
 }
 
 function divide(a, b) {
-  let decimalToRound = getMaxDP(a, b);
+  let decimalToRound = getSumDP(a, b) + 1;
   if (Number(b) == 0) {
     return "error:DIV/0";
   }
@@ -108,10 +108,13 @@ function divide(a, b) {
 
 function inputNumber() {
   if (currentOperator !== undefined) {
+    // Operator (+, -, *, /) has been chosen
     if (operand1 === undefined) {
+      // clearing display and inserting a new number
       operand1 = output.textContent;
       output.textContent = this.textContent;
     } else {
+      // append number to current display
       if (output.textContent.length < 10) {
         if (hasDecimal(output.textContent)) {
           output.textContent = output.textContent + this.textContent;
@@ -122,6 +125,7 @@ function inputNumber() {
       }
     }
   } else {
+    // Operator has not been chosen
     if (output.textContent.length < 10) {
       if (hasDecimal(output.textContent)) {
         output.textContent = output.textContent + this.textContent;
@@ -160,7 +164,10 @@ function flipSign() {
 
 function addDecimal() {
   if (currentOperator !== undefined) {
-    operand1 = output.textContent;
+    // Operator (+, -, *, /) has been chosen
+    if (operand1 === undefined) {
+      operand1 = output.textContent;
+    }
     output.textContent = "0.";
   } else if (output.textContent.length < 10 && !hasDecimal(output.textContent)) {
     output.textContent += ".";
@@ -191,6 +198,7 @@ function getSumDP(a, b) {
 
 function operate() {
   // validate operator and a, b first
+  // operand1 = output.textContent;
   if (operand1 !== undefined && currentOperator !== undefined) {
     if (currentOperator == "+") {
       output.textContent = add(operand1, output.textContent);
